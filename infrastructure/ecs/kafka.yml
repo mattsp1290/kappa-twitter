@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  Subnet:
+    Type: AWS::EC2::Subnet
+    Description: Subnet where the service will be deployed
+
+Resources:
+  KafkaCluster:
+    Type: "AWS::ECS::Cluster"
+    Properties:
+      ClusterName: Kafka
+
+  KafkaTask:
+    Type: "AWS::ECS::TaskDefinition"
+    Properties:
+      # Volumes:
+      #   - Volume Definition
+      Cpu: 1024
+      # ExecutionRoleArn: String
+      Memory: 2GB
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      # TaskRoleArn: String
+      ContainerDefinitions:
+        - Essential: true
+          Image: wurstmeister/kafka:latest
+          MemoryReservation: 2048
+          # MountPoints:
+          #   - MountPoint
+          Name: Kafka
+          PortMappings:
+            - ContainerPort: 9092
+              HostPort: 9092
+              Protocol: tcp
+            - ContainerPort: 50000
+              HostPort: 50000
+              Protocol: tcp
+
+  KafkaService:
+    Type: "AWS::ECS::Service"
+    Properties:
+      Cluster: !Ref KafkaCluster
+      DesiredCount: 1
+      LaunchType: FARGATE
+      LoadBalancers:
+        - ContainerName: Kafka
+          ContainerPort: 9092
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          # SecurityGroups:
+          #   - String
+          Subnets:
+            - !Ref Subnet
+      ServiceName: Kafka
+      TaskDefinition: !Ref KafkaTask
