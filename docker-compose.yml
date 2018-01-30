@@ -1,0 +1,22 @@
+version: "3.4"
+
+# Compose File meant for local testing
+
+services:
+  zookeeper:
+    image: zookeeper:3.4
+    ports:
+      - 2181:2181
+
+  kafka:
+    image: wurstmeister/kafka:1.0.0
+    ports:
+      - 9092:9092
+      - 9094:9094
+    hostname: kafka
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_NAME: kafka
+      KAFKA_CREATE_TOPICS: "twitter:1:1"
+    depends_on:
+      - zookeeper
