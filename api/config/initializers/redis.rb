@@ -1,0 +1,1 @@
+$redis = Redis::Namespace.new("twitter-api", :redis => Redis.new(host: "redis", port: 6379))

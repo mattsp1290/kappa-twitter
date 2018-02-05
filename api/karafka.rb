@@ -15,15 +15,15 @@ Rails.application.eager_load!
 
 class KarafkaApp < Karafka::App
   setup do |config|
-    config.kafka.seed_brokers = %w[kafka://127.0.0.1:9092]
-    config.client_id = 'example_app'
+    config.kafka.seed_brokers = %w[kafka://kafka:9092]
+    config.client_id = 'api'
     config.backend = :inline
-    config.batch_fetching = true
+    config.batch_fetching = false
   end
 
   consumer_groups.draw do
-    topic :twitter_request do
-      controller TwitterRequestController
+    topic :requested_tweet do
+      controller RequestedTweetConsumer
     end
 
     # consumer_group :bigger_group do

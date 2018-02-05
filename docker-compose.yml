@@ -17,6 +17,11 @@ services:
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_NAME: kafka
-      KAFKA_CREATE_TOPICS: "twitter:1:1"
+      KAFKA_CREATE_TOPICS: "twitter_request:1:1,requested_tweet:1:1,raw_tweet:1:1"
     depends_on:
       - zookeeper
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379

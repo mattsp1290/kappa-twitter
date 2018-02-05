@@ -1,6 +1,5 @@
 class TweetController < ApplicationController
     def index
-        @test = {a: 1, b: 2}
-        render json: @test
+        render json: Tweet.get_tweet(request)
     end
 end
