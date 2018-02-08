@@ -26,6 +26,6 @@ module Tweet
     end
 
     def self.tweet_from_params(params)
-        {full_text: params[:full_text], lang: params[:lang], source: params[:source], text: params[:text], user: params[:user] }
+        {"full_text" => params[:full_text], "lang" => params[:lang], "source" => params[:source], "text" => params[:text], "user" => params[:user] }.to_json
     end
 end
