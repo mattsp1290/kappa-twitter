@@ -24,7 +24,7 @@ class TwitterService
     end
 
     def self.tweet_to_hash(tweet)
-        {full_test: tweet.full_text, lang: tweet.lang, source: tweet.source, text: tweet.text, user: tweet.user }
+        {full_text: tweet.full_text, lang: tweet.lang, source: tweet.source, text: tweet.text, user: tweet.user }
     end
 
     def self.process_tweets(tweets)

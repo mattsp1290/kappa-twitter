@@ -7,6 +7,7 @@ module Tweet
             Timeout::timeout(5) {
                 while true do
                     tweet = self.fetch_tweet(uuid)
+                    break unless tweet.nil?
                 end
             }
         rescue Timeout::Error
@@ -25,6 +26,6 @@ module Tweet
     end
 
     def self.tweet_from_params(params)
-        {full_test: params[:full_text], lang: params[:lang], source: params[:source], text: params[:text], user: params[:user] }
+        {full_text: params[:full_text], lang: params[:lang], source: params[:source], text: params[:text], user: params[:user] }
     end
 end
